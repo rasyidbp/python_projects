@@ -144,3 +144,55 @@ class Maze:
         for column in self.__cells:
             for cell in column:
                 cell.visited = False
+
+    def solve(self) -> bool:
+        return self._solve_r(0, 0)
+
+    def _solve_r(self, i: int, j: int) -> bool:
+        # Animate the current state
+        self.__animate()
+
+        # Get the current cell and mark it as visited
+        current_cell = self.__cells[i][j]
+        current_cell.visited = True
+
+        # Check whether we reached the bottom-right cell
+        if i == self.__num_cols - 1 and j == self.__num_rows - 1:
+            return True
+
+        # Directions: (change in column, change in row, wall attribute)
+        directions = [
+            (-1, 0, "has_left_wall"),
+            (1, 0, "has_right_wall"),
+            (0, -1, "has_top_wall"),
+            (0, 1, "has_bottom_wall"),
+        ]
+
+        for di, dj, wall in directions:
+            next_i = i + di
+            next_j = j + dj
+
+            # Check whether the neighboring cell exists
+            if not (0 <= next_i < self.__num_cols):
+                continue
+
+            if not (0 <= next_j < self.__num_rows):
+                continue
+
+            next_cell = self.__cells[next_i][next_j]
+
+            # Skip cells that are blocked by a wall or already visited
+            if getattr(current_cell, wall) or next_cell.visited:
+                continue
+
+            # Draw the move
+            current_cell.draw_move(next_cell)
+
+            # Recursively attempt to solve from the neighboring cell
+            if self._solve_r(next_i, next_j):
+                return True
+
+            # Undo the move if that path did not lead to the exit
+            current_cell.draw_move(next_cell, undo=True)
+
+        return False

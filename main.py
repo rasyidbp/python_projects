@@ -5,16 +5,14 @@ from maze import Maze
 def main():
     win = Window(800, 600)
 
-    # Create a 10x10 maze
     maze = Maze(
-        50,
-        50,
-        10,
-        10,
-        50,
-        50,
-        win,
+        50, 50,
+        10, 12,
+        40, 40,
+        win
     )
+
+    maze.solve()
 
     win.wait_for_close()
 
