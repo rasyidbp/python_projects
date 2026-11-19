@@ -1,4 +1,4 @@
-import os
+import os, argparse
 from dotenv import load_dotenv
 from openai import OpenAI
 
@@ -15,19 +15,21 @@ def main():
         api_key=api_key,
     )
 
-    prompt='just testing, dont waste any more token.'
+    parser=argparse.ArgumentParser(description='Chatbot')
+    parser.add_argument('prompt', type=str, help='User_prompt')
+    args=parser.parse_args()
 
     response=client.chat.completions.create(
         model='openrouter/free',
         messages=[
             {
                 'role':'user',
-                'content':prompt,
+                'content':args.prompt,
             }
         ]
     )
 
-    print('Prompt: ', prompt)
+    print('Prompt: ', args.prompt)
 
     if response.usage is None:
         raise RuntimeError('usage_empty')
