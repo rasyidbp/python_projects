@@ -16,17 +16,16 @@ def main():
     )
 
     parser=argparse.ArgumentParser(description='Chatbot')
-    parser.add_argument('prompt', type=str, help='User_prompt')
+    parser.add_argument('prompt', type=str, help='User prompt')
     args=parser.parse_args()
+
+    messages=[
+        {'role':'user', 'content':args.prompt},
+    ]
 
     response=client.chat.completions.create(
         model='openrouter/free',
-        messages=[
-            {
-                'role':'user',
-                'content':args.prompt,
-            }
-        ]
+        messages=messages,
     )
 
     print('Prompt: ', args.prompt)
