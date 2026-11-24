@@ -33,9 +33,9 @@ def main():
         raise RuntimeError('usage_empty')
         
     if args.verbose:
-        print('Prompt: ', args.prompt)
-        print('Prompt tokens: ',response.usage.prompt_tokens)
-        print('Response tokens: ',response.usage.completion_tokens)
+        print('User prompt:', args.prompt)
+        print('Prompt tokens:',response.usage.prompt_tokens)
+        print('Response tokens:',response.usage.completion_tokens)
 
     print(response.choices[0].message.content)
 
